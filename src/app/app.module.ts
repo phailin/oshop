@@ -1,3 +1,5 @@
+import { AuthGuard } from './auth-guard.service';
+import { AuthService } from './auth.service';
 
 import { environment } from './../environments/environment';
 import { AppComponent } from './app.component';
@@ -54,19 +56,23 @@ import { LoginComponent } from './login/login.component';
     RouterModule.forRoot([
       { path: '', component: ProductsComponent },    
       { path: 'products', component: ProductsComponent },
-      { path: 'shopping-cart', component: ShoppingCartComponent },
-      { path: 'order-success', component: OrderSuccessComponent },
+      { path: 'shopping-cart', component: ShoppingCartComponent },      
       { path: 'login', component: LoginComponent },
-      { path: 'check-out', component: CheckOutComponent },
-      { path: 'admin/products', component:  AdminProductsComponent},
-      { path: 'admin/orders', component: AdminOrdersComponent },
-      { path: 'my-orders', component: MyOrdersComponent },
+      
+      { path: 'check-out', component: CheckOutComponent, canActivate: [AuthGuard] },
+      { path: 'order-success', component: OrderSuccessComponent, canActivate: [AuthGuard] },
+      { path: 'my-orders', component: MyOrdersComponent, canActivate: [AuthGuard] },
+      
+      { path: 'admin/products', component:  AdminProductsComponent, canActivate: [AuthGuard]},
+      { path: 'admin/orders', component: AdminOrdersComponent, canActivate: [AuthGuard]},
+      
     
     ]),
 
   ],
   providers: [
-
+    AuthService,
+    AuthGuard
   ],
   bootstrap: [AppComponent]
 })
